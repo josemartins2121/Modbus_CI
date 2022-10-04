@@ -3,6 +3,7 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <stdio.h>
+#include <arpa/inet.h>
 
 
 
@@ -41,5 +42,5 @@ int main (void) {
         printf("String recebida: %s\n",buf);
     }
 
-    close(sock);
+    shutdown(sock,SHUT_RDWR);
 }
