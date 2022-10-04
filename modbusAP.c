@@ -27,8 +27,6 @@ int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,ui
     } 
     print_char_array("Write multiple register APDU: ",buff,(int) buff_len);
 
-
-
     // need to send APDU len , but no need to send APDU_R lenght because we are the ones that requested 
     free(buff);
     return 0; 
