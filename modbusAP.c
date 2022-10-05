@@ -13,7 +13,8 @@ void print_char_array(char * name, char * array, int len);
 int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,uint16_t* val){
     
     if((server_add == NULL) | (port < 0) | (st_r <0)  | (n_r <0)| (val == NULL))return -1;
-    // n_r > MAX_REG return -1   MAX _REG 123 
+    if (n_r > MAX_REG)return -1;
+
     uint16_t bytes = 2 * n_r;
     size_t buff_len = 6 +  bytes;
     char * buff = (char*) malloc(sizeof(char)*buff_len);
@@ -21,14 +22,18 @@ int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,ui
     buff_code(buff, FC_WRITE_MULTIPLE_REGISTERS);
     bufi16(&buff[1],st_r);
     bufi16(&buff[3],n_r);
-    buff_code(&buff[5], (char)buff_len);
+    buff[5] = (uint8_t) bytes;
 
     for(int i=0 ; i< n_r ;i++){
         bufi16(&buff[6+i*2],val[i]);
     } 
+    
     print_char_array("Write multiple register APDU: ",buff,(int) buff_len);
+    
+    
     char * APDU_R = (char*) malloc(sizeof(char)*256);
-    send_modbus_request(server_add,port,buff,buff_len,APDU_R);
+
+    send_modbus_request(server_add,port,buff,(uint16_t)buff_len,APDU_R);
     // need to send APDU len , but no need to send APDU_R lenght because we are the ones that requested 
     
     //check response
@@ -43,6 +48,8 @@ int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,ui
     }
      */
     free(buff);
+
+    // return number of read register- ok or <0 - error 
     return 0; 
 }
 
@@ -57,7 +64,7 @@ void bufi16(char * buffer, uint16_t value) {
     //value = htons(value);
     //memcpy(buffer, &value, sizeof(value)); 
     buffer[0] = (uint8_t)value >> 8;
-    buffer[1] = (uint8_t)(value & 0xF);
+    buffer[1] = (uint8_t)(value & 0xFF);
 
 }
 

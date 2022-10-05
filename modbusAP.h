@@ -1,6 +1,8 @@
 #ifndef FUNC_CODE_H
 #define FUNC_CODE_H 1
 
+#define MAX_REG 123
+
 
 #define FC_READ_COILS                       (char) 0x01
 #define FC_READ_DISCRETE_INPUTS             (char) 0x02
@@ -30,6 +32,8 @@
 
 #define FC_IS_EXCEPTION(X) !!((X) & (0x80))
 #define FC_GET(X) ((X) & (0x80 - 1))
+
+
 
 
 extern int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,uint16_t* val);

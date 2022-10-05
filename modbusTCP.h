@@ -5,7 +5,7 @@
 #define BUF_LEN 256
 #define TCP_HEADER_LENGTH 7
 
-extern int send_modbus_request(char* server_add, int port,char* APDU,int APDUlen,char* APDU_R);
+extern int send_modbus_request(char* server_add, int port,char* APDU,uint16_t APDUlen,char* APDU_R);
 extern int assert_connection(char* server_add, int port);
 extern void buff_code_TCP(char * buffer, char value);
 extern void bufi16_TCP(char * buffer, uint16_t value);
