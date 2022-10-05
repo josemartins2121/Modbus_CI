@@ -31,14 +31,22 @@ int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,ui
     print_char_array("Write multiple register APDU: ",buff,(int) buff_len);
     
     
-    char * APDU_R = (char*) malloc(sizeof(char)*256);
+    char * APDU_R = (char*) malloc(sizeof(char)*bytes);
 
-    send_modbus_request(server_add,port,buff,(uint16_t)buff_len,APDU_R);
+    int aux;
+    aux = send_modbus_request(server_add,port,buff,(uint16_t)buff_len,APDU_R);
     // need to send APDU len , but no need to send APDU_R lenght because we are the ones that requested 
-    
+    if (aux < 0) return -1;
+    else {
+        if ( (char) APDU_R[0] & 0x80){
+            return -APDU_R[1];
+        }
+    }
+
+
     //check response
 
-    // APDU_R[0] & 0x80 -> verificar o bit mais significativo
+    //APDU_R[0] & 0x80 -> verificar o bit mais significativo
     /* if(i >= 0){  i é o return do connect 
         if(APDU_R[0] & 0x80 ){
 
@@ -47,10 +55,12 @@ int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,ui
         }
     }
      */
-    free(buff);
 
+
+    free(buff);
+    printf("Foram escritos %d registos\n",(APDU_R[3]<<8)+APDU_R[4]);
     // return number of read register- ok or <0 - error 
-    return 0; 
+    return ((APDU_R[3]<<8)+APDU_R[4]); 
 }
 
 // se tiver em baixo dá erro 

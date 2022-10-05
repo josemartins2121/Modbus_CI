@@ -19,7 +19,6 @@ int send_modbus_request(char* server_add, int port,char* APDU,uint16_t APDUlen,c
 
   //uint16_t total_length = APDUlen + TCP_HEADER_LENGTH;
   char * header_buffer = (char * ) malloc(sizeof(char) * TCP_HEADER_LENGTH);
-  printf("APDU_len: %d \n",APDUlen);
     
   bufi16_TCP(header_buffer, transaction_id);
   bufi16_TCP(&header_buffer[2], TCP_MODBUS_PROTOCOL);
@@ -39,7 +38,7 @@ int send_modbus_request(char* server_add, int port,char* APDU,uint16_t APDUlen,c
 
   int len;
   len = (header_buffer[4]<<8)+header_buffer[5];
-
+  
   aux = recv(sock, APDU_R,len-1,0);
   print_char_array_TCP("Received data: ",APDU_R,len-1);
 
