@@ -10,7 +10,7 @@
 #include "modbusAP.h"
 
 
-int send_modbus_request(char* server_add, int port,char* APDU,int APDUlen,char* APDU_R){
+int send_modbus_request(char* server_add, int port,char* APDU,uint16_t APDUlen,char* APDU_R){
   int sock = assert_connection(server_add, port);
   if(sock < 0) return -1;
   
@@ -19,18 +19,29 @@ int send_modbus_request(char* server_add, int port,char* APDU,int APDUlen,char* 
 
   //uint16_t total_length = APDUlen + TCP_HEADER_LENGTH;
   char * header_buffer = (char * ) malloc(sizeof(char) * TCP_HEADER_LENGTH);
+  printf("APDU_len: %d \n",APDUlen);
     
   bufi16_TCP(header_buffer, transaction_id);
   bufi16_TCP(&header_buffer[2], TCP_MODBUS_PROTOCOL);
-  bufi16_TCP(&header_buffer[4], APDUlen + 1);
+  bufi16_TCP(&header_buffer[4],APDUlen + 1);
   buff_code_TCP(&header_buffer[6], 0x01); // 0xFF don´t care for server !!!!!! 0x01 may work 
   
   send(sock, header_buffer, TCP_HEADER_LENGTH, 0);
   send(sock, APDU, APDUlen, 0);
 
 
-  print_char_array_TCP("Header-TCP",header_buffer,TCP_HEADER_LENGTH);
-  print_char_array_TCP("APDU",APDU,APDUlen);
+  print_char_array_TCP("Header-TCP: ",header_buffer,TCP_HEADER_LENGTH); // send MBAP header
+  print_char_array_TCP("APDU: ",APDU,APDUlen); // send APDU 
+
+  int aux;
+  aux = recv(sock, header_buffer,TCP_HEADER_LENGTH,0);
+  print_char_array_TCP("Received header: ",header_buffer,TCP_HEADER_LENGTH);
+
+  int len;
+  len = (header_buffer[4]<<8)+header_buffer[5];
+
+  aux = recv(sock, APDU_R,len-1,0);
+  print_char_array_TCP("Received data: ",APDU_R,len-1);
 
   free(header_buffer);
   shutdown(sock,SHUT_RDWR);
