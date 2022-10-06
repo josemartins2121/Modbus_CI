@@ -43,20 +43,6 @@ int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,ui
         }
     }
 
-
-    //check response
-
-    //APDU_R[0] & 0x80 -> verificar o bit mais significativo
-    /* if(i >= 0){  i é o return do connect 
-        if(APDU_R[0] & 0x80 ){
-
-            pacote de resposta 
-            return(-APDU_R[1])
-        }
-    }
-     */
-
-
     free(buff);
     printf("Foram escritos %d registos\n",(APDU_R[3]<<8)+APDU_R[4]);
     // return number of read register- ok or <0 - error 

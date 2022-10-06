@@ -19,7 +19,7 @@ int send_modbus_request(char* server_add, int port,char* APDU,uint16_t APDUlen,c
 
   //uint16_t total_length = APDUlen + TCP_HEADER_LENGTH;
   char * header_buffer = (char * ) malloc(sizeof(char) * TCP_HEADER_LENGTH);
-    
+  printf("Apdu-len: %d \n",(APDUlen>>8));  
   bufi16_TCP(header_buffer, transaction_id);
   bufi16_TCP(&header_buffer[2], TCP_MODBUS_PROTOCOL);
   bufi16_TCP(&header_buffer[4],APDUlen + 1);
@@ -76,7 +76,7 @@ void bufi16_TCP(char * buffer, uint16_t value) {
     //value = htons(value);
     //memcpy(buffer, &value, sizeof(value)); 
     buffer[0] = (uint8_t)value >> 8;
-    buffer[1] = (uint8_t)(value & 0xF);
+    buffer[1] = (uint8_t)(value & 0xFF);
 
 }
 
