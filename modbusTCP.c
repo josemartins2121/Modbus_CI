@@ -23,7 +23,7 @@ int send_modbus_request(char* server_add, int port,char* APDU,uint16_t APDUlen,c
   bufi16_TCP(header_buffer, transaction_id);
   bufi16_TCP(&header_buffer[2], TCP_MODBUS_PROTOCOL);
   bufi16_TCP(&header_buffer[4],APDUlen + 1);
-  buff_code_TCP(&header_buffer[6], 0x01); // 0xFF don´t care for server !!!!!! 0x01 may work 
+  header_buffer[6] = (uint8_t) 0x01; // 0xFF don´t care for server !!!!!! 0x01 may work 
   
   send(sock, header_buffer, TCP_HEADER_LENGTH, 0);
   send(sock, APDU, APDUlen, 0);
