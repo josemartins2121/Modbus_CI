@@ -1,7 +1,9 @@
 #ifndef FUNC_CODE_H
 #define FUNC_CODE_H 1
 
-#define MAX_REG 123
+#define MAX_APDU 256
+#define MAX_WR_REGS 123		// max number of registers that can be written
+#define MAX_RD_REGS 125		// max number of registers that can be read
 
 
 #define FC_READ_COILS                       (char) 0x01
@@ -35,7 +37,7 @@
 
 
 
-
+extern int read_h_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,uint16_t* val);
 extern int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,uint16_t* val);
 
 #endif

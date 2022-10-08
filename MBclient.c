@@ -9,6 +9,15 @@ int main(int argc, char const *argv[])
 
     num_regs = write_multiple_regs("127.0.0.1",502,0, 10, data2);
     printf("[MB client] Foram escritos %d registos\n",num_regs);
+
+
+    num_regs = read_h_regs("127.0.0.1",502,0, 10, data2);
+    printf("[MB client] Foram lidos %d registos\n",num_regs);
+    for (int i = 0; i < num_regs; i++) {
+        printf("%d ", data2[i]);
+    
+    }
+    printf("\n");
     return 0;
 }
 

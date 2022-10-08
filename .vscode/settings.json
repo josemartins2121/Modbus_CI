@@ -3,6 +3,8 @@
         "in.h": "c",
         "types.h": "c",
         "socket.h": "c",
-        "features.h": "c"
+        "features.h": "c",
+        "inet.h": "c",
+        "modbustcp.h": "c"
     }
 }
