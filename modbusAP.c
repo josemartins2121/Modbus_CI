@@ -49,14 +49,12 @@ int read_h_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,uint16_t* 
     if (n_r > MAX_RD_REGS)return -1;
 
     uint8_t APDU[MAX_APDU];
-    uint16_t bytes = 2 * n_r;
     size_t APDU_len = 5;
 
     buff_code(APDU, FC_READ_HOLDING_REGISTERS);
     bufi16(&APDU[1],st_r);
     bufi16(&APDU[3],n_r);
 
-    
     //print_char_array("Read multiple register APDU: ",APDU,(int) APDU_len);
     
     int aux;

@@ -4,7 +4,7 @@
 
 int main(int argc, char const *argv[])
 {   
-    int num_regs = 0;
+  /*   int num_regs = 0;
     uint16_t data2[] = { 1, 5, 3, 4, 5, 6, 7, 8, 10 ,12 }; 
 
     num_regs = write_multiple_regs("127.0.0.1",502,0, 0, data2);
@@ -18,7 +18,35 @@ int main(int argc, char const *argv[])
     
     }
     printf("\n");
+    return 0; */
+
+    int i ;
+    uint16_t data[5];
+
+    i=read_h_regs("127.0.0.1",502,3, 1, &data[0]);
+    if(i!= 0)return i;
+    i = read_h_regs("127.0.0.1",502,4, 1, &data[1]);
+    if(i!= 0)return i;
+    i = read_h_regs("127.0.0.1",502,9, 1, &data[2]);
+    if(i!= 0)return i;
+
+    data[3] = 55;
+    write_multiple_regs("127.0.0.1",502,0, 1, &data[3]);
+    //printf("%d",data[2]);
+
+    if ( data[2] == 0){
+        data[4] = 5555;
+    }
+    else data[4] = data[0] + data[1];
+    printf("%d",data[4]);
+
+    i = write_multiple_regs("127.0.0.1",502,1, 1, &data[4]);
+    if(i!= 0)return i;
+    i = write_multiple_regs("10.227.113.1",502,2, 1, &data[4]);
+    if(i!= 0)return i;
+
     return 0;
+
 }
 
 
