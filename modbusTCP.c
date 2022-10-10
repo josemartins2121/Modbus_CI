@@ -25,6 +25,7 @@ int send_modbus_request(char* server_add, int port,char* APDU,uint16_t APDUlen,c
   bufi16_TCP(MBAP, transaction_id);
   bufi16_TCP(&MBAP[2], TCP_MODBUS_PROTOCOL);
   bufi16_TCP(&MBAP[4],APDUlen + 1);
+  // unit id 
   MBAP[6] = (uint8_t) 0x01; // 0xFF don´t care for server !!!!!! 0x01 may work 
   
   if(send(sock, MBAP, TCP_HEADER_LENGTH, 0)<0){
