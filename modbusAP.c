@@ -35,7 +35,7 @@ int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,ui
     // need to send APDU len , but no need to send APDU_R lenght because we are the ones that requested 
     if (aux < 0) return -1;
 
-    if ( (char) APDU[0] & 0x80)return APDU[1];
+    if ( (uint8_t) APDU[0] & 0x80)return APDU[1];
     
     //printf("Foram escritos %d registos\n",(APDU[3]<<8)+APDU[4]);
     // return number of read register- ok or <0 - error 
@@ -65,7 +65,7 @@ int read_h_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,uint16_t* 
     // need to send APDU len , but no need to send APDU_R lenght because we are the ones that requested 
     if (aux < 0) return -1;
 
-    if ( (char) APDU[0] & 0x80)return APDU[1];
+    if ( (uint8_t) APDU[0] & 0x80)return APDU[1];
 
     for( int i = 0; i < APDU[1]/2; i++) {
         val[i] = (uint16_t) (APDU[2+2*i]<<8) + (uint16_t)(APDU[3+2*i]);
