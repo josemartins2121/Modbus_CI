@@ -39,7 +39,8 @@ int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,ui
     
     //printf("Foram escritos %d registos\n",(APDU[3]<<8)+APDU[4]);
     // return number of read register- ok or <0 - error 
-    return ((APDU[3]<<8)+APDU[4]); 
+    //return ((APDU[3]<<8)+APDU[4]); 
+    return 0;
 }
 
 int read_h_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,uint16_t* val){
@@ -71,7 +72,8 @@ int read_h_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,uint16_t* 
     }
     //printf("Foram escritos %d registos\n",(APDU[1]/2));
     // return number of read register- ok or <0 - error 
-    return ((APDU[1]/2)); 
+    return 0;
+    //return ((APDU[1]/2)); 
 }
 
 
