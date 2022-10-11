@@ -25,7 +25,8 @@ int write_multiple_regs(char* server_add, int port,uint16_t st_r,uint16_t n_r,ui
     APDU[5] = (uint8_t) bytes;
 
     for(int i=0 ; i< n_r ;i++){
-        bufi16(&APDU[6+i*2],val[i]);
+        APDU[6+i*2]=(uint8_t)(val[i]>> 8);
+        APDU[6+1+i*2]=(uint8_t)(val[i] & 0xFF);
     } 
     
     //print_char_array("Write multiple register APDU: ",APDU,(int) APDU_len);
